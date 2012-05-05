@@ -1,0 +1,13 @@
+package models;
+
+import javax.persistence.Entity;
+import play.db.jpa.Model;
+
+@Entity(name = "energy_system")
+public class EnergySystem extends Model {
+
+	public Long location;
+	public Long latitude;
+	public String longitude;
+	
+}
