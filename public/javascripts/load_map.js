@@ -4,6 +4,7 @@
  */
 
 "use strict";
+var map;
 
 /* Function to make the ajax request and call the callback function on
  * success */
@@ -41,23 +42,17 @@ var load_energy_systems = function(map, system_id) {
   );
   map.addLayer(energy_systems);
 
-  /* add events to the map to allow users to select a point */
-
-  energy_systems.events.on({
-    'featureselected': function(e) {
-      console.log(e);
-    }
-  });
-
   /* loads a energy system from the url end point and adds it to the map */
   get_system(system_id, function(data) {
+    var native_location,
+        google_location;
 
-    var native_location = new OpenLayers.Geometry.Point(
-      data.latitude,
-      data.longitude
+    native_location = new OpenLayers.Geometry.Point(
+      data.longitude,
+      data.latitude
     );
     // transform the geographic coordinates to Google's projection
-    var google_location = native_location.transform(
+    google_location = native_location.transform(
       new OpenLayers.Projection("EPSG:4326"),
       map.getProjectionObject()
     );
@@ -80,12 +75,19 @@ var load_energy_systems = function(map, system_id) {
 };
 
 var load_map = function(options) {
-  var map,
-      google_stat;
+
+  var google_stat;
 
   map = new OpenLayers.Map({
     div: options.div,
-    projection: new OpenLayers.Projection('EPSG:90091')
+    displayProjection: new OpenLayers.Projection('EPSG:4326'),
+    projection: new OpenLayers.Projection('EPSG:90091'),
+
+    units: "m",
+    numZoomLevels: 18,
+    maxResolution: 156543.0339,
+    maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508)
+
   });
 
   google_stat = new OpenLayers.Layer.Google(
@@ -93,8 +95,7 @@ var load_map = function(options) {
     {type: google.maps.MapTypeId.SATELLITE,
      sphericalMercator: true,
      numZoomLevels: 22,
-     visibility: false
-    }
+     visibility: false}
   );
   // add the google satellite layer as a base layer.
   map.addLayer(google_stat);
