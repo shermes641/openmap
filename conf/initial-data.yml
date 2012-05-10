@@ -1,20 +1,20 @@
 EnergySystem(e1):
-    longitude: 40.6461
-    latitude: 111.4972
+    longitude: -111.4972
+    latitude: 40.6461
     location: "Park City"
 
 EnergySystem(e2):
-    longitude: 40.7142
-    latitude: 74.0064
+    longitude: -74.0064 
+    latitude: 40.7142
     location: "New York"
 
 
 EnergySystem(e3):
-    longitude: 37.7750
-    latitude: 122.4183
+    longitude: -122.4183
+    latitude: 37.7750
     location: "San Francisco"
 
 EnergySystem(e4):
-    longitude: 0.4252
-    latitude: 36.7517
+    longitude: 36.7517 
+    latitude: 0.4252
     location: "Kenya"
