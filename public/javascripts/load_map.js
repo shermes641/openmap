@@ -8,6 +8,7 @@ var map;
 
 /* Function to make the ajax request and call the callback function on
  * success */
+
 var get_system = function(id, callback) {
   $.ajax({
     url: '/systemmap/' + id
@@ -68,7 +69,7 @@ var load_energy_systems = function(map, system_id) {
     // method requires the point to be cast to a lon lat 
     // TODO see if this necessary
     map.setCenter(new OpenLayers.LonLat(
-      google_location.x, google_location.y), 7);
+      google_location.x, google_location.y), 14);
 
   });
 
@@ -76,18 +77,27 @@ var load_energy_systems = function(map, system_id) {
 
 var load_map = function(options) {
 
-  var google_stat;
+  var google_stat,
+      scale_line = new OpenLayers.Control.ScaleLine({
+        div: document.getElementById('control')
+      });
+
+
+  scale_line.geodesic = true;
 
   map = new OpenLayers.Map({
     div: options.div,
     displayProjection: new OpenLayers.Projection('EPSG:4326'),
     projection: new OpenLayers.Projection('EPSG:90091'),
-
     units: "m",
     numZoomLevels: 18,
     maxResolution: 156543.0339,
-    maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508)
-
+    maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508),
+    controls: [
+      scale_line,
+      new OpenLayers.Control.Navigation(),
+      new OpenLayers.Control.PanZoomBar()
+    ]
   });
 
   google_stat = new OpenLayers.Layer.Google(
